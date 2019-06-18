@@ -1,0 +1,18 @@
+<aside id="page-sidebar" class="collapse navbar-collapse navbar-main-collapse">
+    <!-- Sidebar search -->
+
+    <nav id="primary-nav">
+        <ul>
+            <li>
+                <a href="{{ route('index') }}" class="{{ request.match('') || request.match('/') ? 'active':'' }}"><i class="fa fa-fire"></i>Resumen</a>
+            </li>
+            <li>
+                <a href="{{ route('devices.index') }}" class="{{ request.match('/dispositivos') ? 'active':'' }}"><i class="fa fa-mobile"></i>Gestion de Dispositivos</a>
+            </li>
+            <li>
+                <a href="{{ route('users.index') }}" class="{{ request.match('/cuentas') ? 'active':'' }}"><i class="fa fa-user"></i>Gestion de Cuentas</a>
+            </li>
+        </ul>
+    </nav>
+
+</aside>
