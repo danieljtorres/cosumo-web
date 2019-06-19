@@ -16,6 +16,7 @@ hooks.after.providersBooted(() => {
     }
 
     const [hashed] = args
+    console.log(hashed)
     const isSame = await Hash.verify(value, hashed)
 
     if (!isSame) {

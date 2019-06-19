@@ -23,6 +23,9 @@ Route.group(() => {
     Route.post('refresh-token', 'AuthController.refreshToken')
     Route.get('report', 'ReportController.get')
 
+    Route.post('device/login', 'DeviceController.login')
+    Route.post('device/logout', 'DeviceController.logout')
+    Route.get('device/', 'DeviceController.serviceData')
 
     Route.post('validacionesdispositivos/guardar', 'DeviceController.validateInStore').as('devices.validateInStore')
     Route.post('validaciones/dispositivos/editar', 'DeviceController.validateInUpdate').as('devices.validateInUpdate')

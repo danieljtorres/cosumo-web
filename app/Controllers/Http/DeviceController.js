@@ -3,6 +3,7 @@ const Device = use('App/Models/Device')
 const Company = use('App/Models/Company')
 const Hire = use('App/Models/Hire')
 const { validate } = use('Validator')
+const moment = require('moment')
 
 class DeviceController {
   async index({ view }) {
@@ -133,6 +134,79 @@ class DeviceController {
     return {
       valid: true
     }
+  }
+
+
+  //API
+
+  async login ({ auth, request, response }) {
+    const deviceData = request.only(['internal_id', 'password'])
+    const token = await auth.authenticator('jwt').attempt(deviceData.internal_id, deviceData.password)
+
+    return response.json(token)
+  }
+
+  async logout ({ auth, request, response }) {
+    let device
+
+    try {
+      device = await auth.authenticator('jwt').getUser()
+    } catch (error) {
+      console.log(error)
+      return response.status(error.status).json({ error: error.message })
+    }
+
+    const rules = {
+      password: 'required|verify_hash:' + device.password
+    }
+
+    const validation = await validate(request.all(), rules)
+
+    if (validation.fails()) {
+      return response.status(401).json({
+        validation: validation.messages(),
+        valid: false
+      })
+    }
+
+    return response.json({
+      logout: true
+    })
+  }
+
+  async serviceData ({ auth, response }) {
+    moment.locale('es');
+
+    let device
+
+    try {
+      device = await auth.authenticator('jwt').getUser()
+    } catch (error) {
+      console.log(error)
+      return response.status(error.status).json({ error: error.message })
+    }
+
+    
+    const hire = await device.hires().with('company').where('status', 1).first()
+
+    let percentage
+    const nowMoment = moment()
+    const initDiff = hire.end_service - hire.start_service
+    const currentDiff = nowMoment.valueOf() - hire.start_service
+    let startDate = moment(hire.start_service).format('LL')
+    let endDate = moment(hire.end_service).format('LL')
+
+    if (hire) {
+      percentage = (currentDiff / initDiff) * 100
+    }
+
+    hire.percentage = percentage
+    hire.start_pretty_date = startDate
+    hire.end_pretty_date = endDate
+
+    device.hire = hire
+
+    return response.json(device)
   }
 }
 
