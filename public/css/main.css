@@ -2699,3 +2699,19 @@ only screen and (min-device-pixel-ratio: 1.5) {
     .loader-11 { background-image: url('../img/loading.gifs/loading11@2x.gif'); }
     .loader-12 { background-image: url('../img/loading.gifs/loading12@2x.gif'); }
 }
+
+#primary-nav li a.active {
+    padding-left: 35px;
+    color: #333;
+    background-color: #fff;
+    border-left: 5px solid #3991db;
+}
+
+.navbar-nav-custom > li > a > .caret {
+    border-top-color: #fff;
+}
+
+.navbar.navbar-inverse .divider-vertical {
+    border-right-color: #ffffff;
+    border-left-color: #ffffff;
+}

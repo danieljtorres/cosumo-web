@@ -35,19 +35,33 @@ Route.group(() => {
 }).prefix('api/v1')
 
 
-Route.get('', 'ResumeController.index').as('index')
+Route.get('login', 'AuthController.index').as('auth.index')
+Route.post('login', 'AuthController.login').as('auth.login')
+Route.get('logout', 'AuthController.logout').as('auth.logout')
 
 
-Route.get('dispositivos', 'DeviceController.index').as('devices.index')
-Route.get('dispositivos/crear', 'DeviceController.create').as('devices.create')
-Route.post('dispositivos', 'DeviceController.store').as('devices.store')
-Route.get('dispositivos/:id', 'DeviceController.show').as('devices.show')
-Route.put('dispositivos/:id', 'DeviceController.update').as('devices.update')
-Route.delete('dispositivos/:id', 'DeviceController.delete').as('devices.delete')
+Route.group(() => {
+
+    Route.get('', 'ResumeController.index').as('index')
 
 
-Route.post('alquileres', 'HireController.store').as('hires.store')
-Route.delete('alquileres/:id', 'HireController.delete').as('hires.delete')
+    Route.get('dispositivos', 'DeviceController.index').as('devices.index')
+    Route.get('dispositivos/crear', 'DeviceController.create').as('devices.create')
+    Route.post('dispositivos', 'DeviceController.store').as('devices.store')
+    Route.get('dispositivos/:id', 'DeviceController.show').as('devices.show')
+    Route.put('dispositivos/:id', 'DeviceController.update').as('devices.update')
+    Route.delete('dispositivos/:id', 'DeviceController.delete').as('devices.delete')
 
 
-Route.get('cuentas', 'UserController.index').as('users.index')
+    Route.post('alquileres', 'HireController.store').as('hires.store')
+    Route.delete('alquileres/:id', 'HireController.delete').as('hires.delete')
+
+
+    Route.get('cuentas', 'UserController.index').as('users.index')
+    Route.get('cuentas/crear', 'UserController.create').as('users.create')
+    Route.post('cuentas', 'UserController.store').as('users.store')
+    Route.get('cuentas/:id', 'UserController.show').as('users.show')
+    Route.put('cuentas/:id', 'UserController.update').as('users.update')
+    Route.delete('cuentas/:id', 'UserController.delete').as('users.delete')
+
+}).middleware('authAdmin')

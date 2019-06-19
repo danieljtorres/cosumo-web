@@ -138,7 +138,6 @@ class DeviceController {
 
 
   //API
-
   async login ({ auth, request, response }) {
     const deviceData = request.only(['internal_id', 'password'])
     const token = await auth.authenticator('jwt').attempt(deviceData.internal_id, deviceData.password)

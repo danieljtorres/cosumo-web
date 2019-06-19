@@ -52,8 +52,8 @@
             </td>
             <td class="text-center">
               <div class="btn-group">
-                <button onclick="document.getElementById('deleteForm').submit()" data-toggle="tooltip" title="Borrar" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></button>
-                <form id="deleteForm" action="{{ route('hires.delete', { id: hi.id }) }}?_method=DELETE" method="POST">
+                <button onclick="document.getElementById('deleteForm-{{hi.id}}').submit()" data-toggle="tooltip" title="Borrar" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></button>
+                <form id="deleteForm-{{hi.id}}" action="{{ route('hires.delete', { id: hi.id }) }}?_method=DELETE" method="POST">
                   {{ csrfField() }}
                 </form>
               </div>

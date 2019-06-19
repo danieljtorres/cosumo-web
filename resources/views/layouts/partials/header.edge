@@ -1,4 +1,4 @@
-<header class="navbar navbar-inverse">
+<header class="navbar navbar-inverse" style="background-color: #4aadbe">
     <!-- Mobile Navigation, Shows up  on smaller screens -->
     <ul class="navbar-nav-custom pull-right hidden-md hidden-lg">
         <li class="divider-vertical"></li>
@@ -27,13 +27,13 @@
         <li class="dropdown pull-right dropdown-user">
             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><img src="/img/template/avatar.png" alt="avatar"> <b class="caret"></b></a>
             <ul class="dropdown-menu">
-                <li>
-                    <!-- Modal div is at the bottom of the page before including javascript code -->
+                <!--<li>
+                    Modal div is at the bottom of the page before including javascript code
                     <a href="#modal-user-settings" role="button" data-toggle="modal"><i class="fa fa-user"></i> User Profile</a>
                 </li>
-                <li class="divider"></li>
+                <li class="divider"></li>-->
                 <li>
-                    <a href="page_login.html"><i class="fa fa-lock"></i> Log out</a>
+                    <a href="{{ route('auth.logout') }}"><i class="fa fa-lock"></i> Salir</a>
                 </li>
             </ul>
         </li>

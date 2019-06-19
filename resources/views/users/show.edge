@@ -1,0 +1,32 @@
+@layout('layouts.master')
+
+@section('content')
+<div id="page-content">
+  <!-- Navigation info -->
+  <ul id="nav-info" class="clearfix">
+      <li><a href="/"><i class="fa fa-home"></i></a></li>
+      <li class="active"><a href="">Cuentas</a></li>
+  </ul>
+
+  <h3 class="page-header page-header-top">Cuenta: {{ user.username }}</h3>
+
+  @if(old('errors'))
+  <div class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <ul>
+      @each(er in old('errors'))
+        <li>{{er.message}}</li>
+      @endeach
+      </ul>
+  </div>
+  @endif
+
+  <edit-user-form :url="'{{ route('users.update', { id: user.id }) }}?_method=PUT'" :csrf="'{{ csrfToken }}'" :user="{{ parseUser }}"></edit-user-form>
+
+@endsection
+
+@section('scripts')
+<script>
+
+</script>
+@endsection

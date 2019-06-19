@@ -62,8 +62,8 @@
                         <td class="text-center">
                             <div class="btn-group">
                                 <a href="{{ route('devices.show', { id: de.id }) }}" data-toggle="tooltip" title="Ver" class="btn btn-xs btn-success"><i class="fa fa-eye"></i></a>
-                                <button onclick="document.getElementById('deleteForm').submit()" data-toggle="tooltip" title="Borrar" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></button>
-                                <form id="deleteForm" action="{{ route('devices.delete', { id: de.id }) }}?_method=DELETE" method="POST">
+                                <button onclick="document.getElementById('deleteForm-{{de.id}}').submit()" data-toggle="tooltip" title="Borrar" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></button>
+                                <form id="deleteForm-{{de.id}}" action="{{ route('devices.delete', { id: de.id }) }}?_method=DELETE" method="POST">
                                     {{ csrfField() }}
                                 </form>
                             </div>
