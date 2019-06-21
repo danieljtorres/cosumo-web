@@ -2715,3 +2715,7 @@ only screen and (min-device-pixel-ratio: 1.5) {
     border-right-color: #ffffff;
     border-left-color: #ffffff;
 }
+
+#nav-info > li.active a {
+    color: #337ab7;
+}
