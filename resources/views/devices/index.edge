@@ -80,7 +80,7 @@
 @section('scripts')
 <script>
     $(function () {
-        $('#devices-table').dataTable({columnDefs: [{orderable: false, targets: [0]}]});
+        $('#devices-table').dataTable({ order: [[ 0, "desc" ]], columnDefs: [{orderable: true, targets: [0]}]});
         $('.dataTables_filter input').attr('placeholder', 'Buscar');
     });
 </script>
