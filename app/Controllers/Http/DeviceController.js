@@ -2,7 +2,7 @@
 const Device = use('App/Models/Device')
 const Company = use('App/Models/Company')
 const Hire = use('App/Models/Hire')
-const { validate } = use('Validator')
+const { validateAll } = use('Validator')
 const moment = require('moment')
 
 class DeviceController {
@@ -24,9 +24,47 @@ class DeviceController {
     return view.render('devices.create', { companies: JSON.stringify(companies.toJSON()) })
   }
 
-  async store({ request, response }) {
-
+  async store({ request, response, session }) {
+    console.log(request.all())
     const deviceData = request.only(['internal_id', 'password'])
+
+    const rules = {
+      internal_id: 'required|unique:devices,internal_id',
+      password: 'required|confirmed',
+      name: 'required_if:new_company|unique:companies,name',
+      contact_name: 'required_if:new_company|unique:companies,contact_name',
+      contact_email: 'required_if:new_company|unique:companies,contact_email',
+      contact_phone: 'required_if:new_company|unique:companies,contact_phone',
+      start_service: 'required_if:hire',
+      end_service: 'required_if:hire'
+    }
+
+    const messages = {
+      'internal_id.required': 'El ID es obligatorio',
+      'internal_id.unique': 'El ID ya existe',
+      'password.required': 'La contraseña es obligatoria',
+      'password.confirmed': 'La contraseñas no coinciden',
+      'name.required_if': 'El nombre de la empresa es obligatorio',
+      'name.unique': 'El nombre de la empresa existe',
+      'contact_name.required_if': 'El nombre de contacto es obligatorio',
+      'contact_name.unique': 'El nombre de contacto ya existe',
+      'contact_email.required_if': 'El email de contacto es obligatorio',
+      'contact_email.unique': 'El email de contacto ya existe',
+      'contact_phone.required_if': 'El telefono de contacto es obligatorio',
+      'contact_phone.unique': 'El telefono de contacto ya existe',
+      'start_service.required_if': 'El inicio de servicio es obligatorio',
+      'end_service.required_if': 'El fin del servicio es obligatorio',
+    }
+
+    const validation = await validateAll(request.all(), rules, messages)
+
+    if (validation.fails()) {
+      session
+        .withErrors(validation.messages())
+
+      return response.route('devices.create')
+    }
+
     const device = await Device.create(deviceData)
 
     if (request.input('hire', false)) {
@@ -64,9 +102,35 @@ class DeviceController {
     return view.render('devices.show', { device: device.toJSON(), companies: JSON.stringify(companies.toJSON()) , parseDevice: JSON.stringify(device.toJSON())})
   }
 
-  async update({ params, request, response }) {
+  async update({ params, request, response, session }) {
 
     const device = await Device.findOrFail(params.id)
+
+    const rules = {
+      internal_id: 'required|unique:devices,internal_id,id,' + device.id,
+      actual_password: 'required_if:password|verify_hash:' + device.password,
+      password: 'confirmed'
+    }
+
+    const messages = {
+      'internal_id.required': 'El ID es obligatorio',
+      'internal_id.unique': 'El ID ya existe',
+      'actual_password.required_if': 'La contraseña actual es requerida para actualizarla', 
+      'actual_password.verify_hash': 'La contraseña actual es incorrecta',
+      'password.confirmed': 'La contraseña nueva no coincide con la confirmacion',
+    }
+
+    const validation = await validateAll(request.all(), rules, messages)
+
+    if (validation.fails()) {
+      session
+        .withErrors(validation.messages())
+      session
+        .flash({ errorDevice: true })
+
+      return response.route('devices.show', { id: device.id })
+    }
+
     const deviceData = request.all()
 
     device.internal_id = deviceData.internal_id
@@ -79,61 +143,11 @@ class DeviceController {
     response.route('devices.show', { id: device.id })
   }
 
-  async delete({ params }) {
-
-
-  }
-
-
-  async validateInStore ({ request, response }) {
-
-    const rules = {
-      internal_id: 'required|unique:devices,internal_id',
-      password: 'required|confirmed',
-      name: 'required_if:company_id|unique:companies,name',
-      contact_name: 'required_if:company_id|unique:companies,contact_name',
-      contact_email: 'required_if:company_id|unique:companies,contact_email',
-      contact_phone: 'required_if:company_id|unique:companies,contact_phone',
-      start_service: 'required_if:hire',
-      end_service: 'required_if:hire'
-    }
-
-    const validation = await validate(request.all(), rules)
-
-    if (validation.fails()) {
-      return {
-        validation: validation.messages(),
-        valid: false
-      }
-    }
-
-    return {
-      valid: true
-    }
-  }
-
-  async validateInUpdate ({ request, response }) {
-
-    const device = await Device.find(request.input('id'))
-
-    const rules = {
-      internal_id: 'required|unique:devices,internal_id,id,' + device.id,
-      actual_password: 'required_if:password|verify_hash:' + device.password,
-      password: 'confirmed'
-    }
-
-    const validation = await validate(request.all(), rules)
-
-    if (validation.fails()) {
-      return {
-        validation: validation.messages(),
-        valid: false
-      }
-    }
-
-    return {
-      valid: true
-    }
+  async delete({ params, response }) {
+    const device = await Device.find(params.id)
+    await device.hires().delete()
+    await device.delete()
+    return response.route('devices.index')
   }
 
 

@@ -67,14 +67,14 @@
           </div>
           <div class="form-group">
             <div class="col-md-4">
-              <select id="company_id" name="company_id" class="form-control" :disabled="newCompany">
+              <select id="company_id" name="company_id" class="form-control" :disabled="newCompany || !hire">
                 <option v-for="company in companies" :key="company.id" :value="company.id">{{company.name}}</option>
               </select>
             </div>
             <div class="col-md-4">
               <div class="checkbox">
                 <label for="new-company">
-                  <input type="checkbox" id="new-company" v-model="newCompany"> Es una compañia nueva
+                  <input type="checkbox" id="new-company" name="new_company" v-model="newCompany"> Es una compañia nueva
                 </label>
               </div>
             </div>

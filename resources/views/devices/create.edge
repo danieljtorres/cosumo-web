@@ -11,6 +11,17 @@
 
     <h3 class="page-header page-header-top">Nuevo Dispositivo</h3>
 
+    @if(old('errors'))
+    <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <ul>
+        @each(er in old('errors'))
+          <li>{{er.message}}</li>
+        @endeach
+        </ul>
+    </div>
+    @endif
+
     <create-device-form :url="'{{ route('devices.store') }}'" :csrf="'{{ csrfToken }}'" :companies="{{ companies }}"></create-device-form>
     
 </div>

@@ -29,7 +29,7 @@
             <div class="col-md-4">
               <div class="checkbox">
                 <label for="new-company">
-                  <input type="checkbox" id="new-company" v-model="newCompany"> Es una compañia nueva
+                  <input type="checkbox" id="new-company" name="new_company" v-model="newCompany"> Es una compañia nueva
                 </label>
               </div>
             </div>

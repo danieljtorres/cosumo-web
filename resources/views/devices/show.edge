@@ -10,8 +10,30 @@
 
   <h3 class="page-header page-header-top">Dispositivo: {{ device.internal_id }}</h3>
 
+  @if(old('errors') && flashMessage('errorDevice'))
+  <div class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <ul>
+      @each(er in old('errors'))
+        <li>{{er.message}}</li>
+      @endeach
+      </ul>
+  </div>
+  @endif
+
   <edit-device-form :url="'{{ route('devices.update', { id: device.id }) }}?_method=PUT'" :csrf="'{{ csrfToken }}'" :device="{{ parseDevice }}"></edit-device-form>
   
+  @if(old('errors') && flashMessage('errorHire'))
+  <div class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <ul>
+      @each(er in old('errors'))
+        <li>{{er.message}}</li>
+      @endeach
+      </ul>
+  </div>
+  @endif
+
   @if(!device.__meta__.active_hire)
   <create-hire-form :url="'{{ route('hires.store') }}'" :csrf="'{{ csrfToken }}'" device-id="{{ device.id }}" :companies="{{ companies }}"></create-hire-form>
   @endif

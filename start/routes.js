@@ -17,6 +17,7 @@
 const Route = use('Route')
 
 Route.group(() => {
+
     Route.post('login', 'AuthController.login')
     Route.post('request-restore-password', 'AuthController.sendMailRestorePassword')
     Route.post('restore-password', 'AuthController.restorePassword')
@@ -26,12 +27,7 @@ Route.group(() => {
     Route.post('device/login', 'DeviceController.login')
     Route.post('device/logout', 'DeviceController.logout')
     Route.get('device/', 'DeviceController.serviceData')
-
-    Route.post('validacionesdispositivos/guardar', 'DeviceController.validateInStore').as('devices.validateInStore')
-    Route.post('validaciones/dispositivos/editar', 'DeviceController.validateInUpdate').as('devices.validateInUpdate')
     
-
-    Route.post('validaciones/alquileres/guardar', 'HireController.validateInStore').as('hires.validateInStore')
 }).prefix('api/v1')
 
 
@@ -44,7 +40,6 @@ Route.group(() => {
 
     Route.get('', 'ResumeController.index').as('index')
 
-
     Route.get('dispositivos', 'DeviceController.index').as('devices.index')
     Route.get('dispositivos/crear', 'DeviceController.create').as('devices.create')
     Route.post('dispositivos', 'DeviceController.store').as('devices.store')
@@ -52,10 +47,8 @@ Route.group(() => {
     Route.put('dispositivos/:id', 'DeviceController.update').as('devices.update')
     Route.delete('dispositivos/:id', 'DeviceController.delete').as('devices.delete')
 
-
     Route.post('alquileres', 'HireController.store').as('hires.store')
     Route.delete('alquileres/:id', 'HireController.delete').as('hires.delete')
-
 
     Route.get('cuentas', 'UserController.index').as('users.index')
     Route.get('cuentas/crear', 'UserController.create').as('users.create')
