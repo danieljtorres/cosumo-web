@@ -173,7 +173,7 @@ class DeviceController {
       password: 'required|verify_hash:' + device.password
     }
 
-    const validation = await validate(request.all(), rules)
+    const validation = await validateAll(request.all(), rules)
 
     if (validation.fails()) {
       return response.status(401).json({
