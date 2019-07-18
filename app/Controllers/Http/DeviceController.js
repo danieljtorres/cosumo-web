@@ -188,8 +188,6 @@ class DeviceController {
   }
 
   async serviceData ({ auth, response }) {
-    moment.locale('es');
-
     let device
 
     try {
