@@ -1,7 +1,7 @@
 <template>
   <div class="dash-tile">
     <div class="dash-tile-header">
-      Alquilar
+      Alquiler #{{hire.id}}
     </div>
     <div class="dash-tile-content">
       <form
@@ -10,7 +10,7 @@
         class="form-horizontal form-box remove-margin"
       >
         <input type="hidden" name="_csrf" :value="csrf">
-        <input type="hidden" name="device_id" v-model="deviceId">
+        <input type="hidden" name="device_id" v-model="hire.device_id">
         <input v-if="startService" type="hidden" name="start_service" v-model="startService">
         <input v-if="endService" type="hidden" name="end_service" v-model="endService">
 
@@ -23,7 +23,7 @@
           <div class="form-group">
             <div class="col-md-4">
               <select id="company_id" name="company_id" class="form-control" :disabled="newCompany">
-                <option v-for="company in companies" :key="company.id" :value="company.id">{{company.name}}</option>
+                <option v-for="company in companies" :key="company.id" :value="company.id" :selected="company.id == hire.company_id">{{company.name}}</option>
               </select>
             </div>
             <div class="col-md-4">
@@ -92,7 +92,10 @@
                 :to-text="'Hasta'"
                 :min-date="'1970'"
                 :confirm-text="'Aceptar'"
-                @update="getDateRange"/> 
+                @update="getDateRange"
+                @reset="resetDateRange"/>
+                <br>
+                <small>Si no desea editar la duración deje este campo en blanco</small>
             </div>
             <div class="col-md-4" style="padding-top: 9px">
               <strong>{{ diffDates }}</strong> dias de servicio
@@ -102,7 +105,7 @@
         <div class="form-box-content">
           <div class="form-group">
             <div class="col-md-12">
-              <button class="btn btn-sm btn-success" type="submit">Iniciar Servicio</button>
+              <button class="btn btn-sm btn-success" type="submit">Editar Servicio</button>
             </div>
           </div>
         </div>
@@ -117,13 +120,18 @@ import * as moment from 'moment'
 import VueHotelDatepicker from '@northwalker/vue-hotel-datepicker'
 
 export default {
-  props: ['url', 'companies', 'deviceId', 'csrf'],
+  props: ['url', 'companies', 'hire', 'csrf'],
   data: () => ({
     newCompany: false,
     diffDates: 0,
     startService: 0,
     endService: 0
   }),
+  mounted() {
+    this.startService = this.hire.start_service
+    this.endService = this.hire.end_service
+    this.diffDates = this.hire.days_for_expiration
+  },
   methods: {
     getDateRange(e) {
       if(e.start && e.end) {
@@ -137,6 +145,11 @@ export default {
       } else {
         this.startService = this.endService = this.diffDates = 0
       }
+    },
+    resetDateRange() {
+      this.startService = this.hire.start_service
+      this.endService = this.hire.end_service
+      this.diffDates = this.hire.days_for_expiration
     }
   },
   components: { VueHotelDatepicker }

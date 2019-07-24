@@ -102,6 +102,19 @@ class DeviceController {
     return view.render('devices.show', { device: device.toJSON(), companies: JSON.stringify(companies.toJSON()) , parseDevice: JSON.stringify(device.toJSON())})
   }
 
+  async showService({ params, view }) {
+
+    const device = await Device.query()
+      .where('id', params.id)
+      .firstOrFail()
+
+    const hire = await Hire.findOrFail(params.hire_id)
+
+    const companies = await Company.all()
+
+    return view.render('hires.show', { device: device.toJSON(), hire: hire.toJSON(), companies: JSON.stringify(companies.toJSON()) , parseHire: JSON.stringify(hire.toJSON())})
+  }
+
   async update({ params, request, response, session }) {
 
     const device = await Device.findOrFail(params.id)

@@ -1,0 +1,30 @@
+@layout('layouts.master')
+
+@section('content')
+<div id="page-content">
+  <!-- Navigation info -->
+  <ul id="nav-info" class="clearfix">
+      <li><a href="/"><i class="fa fa-home"></i></a></li>
+      <li><a href="{{ route('devices.show', { id: device.id }) }}">Dispositivos</a></li>
+      <li class="active"><a href="">Editar Servicio</a></li>
+  </ul>
+
+  <h3 class="page-header page-header-top">Dispositivo: {{ device.internal_id }}</h3>
+  
+  @if(old('errors') && flashMessage('errorHire'))
+  <div class="alert alert-danger">
+      <button type="button" class="close" data-dismiss="alert">×</button>
+      <ul>
+      @each(er in old('errors'))
+        <li>{{er.message}}</li>
+      @endeach
+      </ul>
+  </div>
+  @endif
+  
+  <edit-hire-form :url="'{{ route('hires.update', { id: device.id, hire_id: hire.id }) }}?_method=PUT'" :csrf="'{{ csrfToken }}'" :hire="{{ parseHire }}" :companies="{{ companies }}"></edit-hire-form>
+</div>
+@endsection
+
+@section('scripts')
+@endsection

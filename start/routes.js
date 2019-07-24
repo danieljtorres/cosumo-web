@@ -47,6 +47,9 @@ Route.group(() => {
     Route.put('dispositivos/:id', 'DeviceController.update').as('devices.update')
     Route.delete('dispositivos/:id', 'DeviceController.delete').as('devices.delete')
 
+    Route.get('dispositivos/:id/servicios/:hire_id', 'DeviceController.showService').as('hires.show')
+    Route.put('dispositivos/:id/servicios/:hire_id', 'HireController.update').as('hires.update')
+
     Route.post('alquileres', 'HireController.store').as('hires.store')
     Route.delete('alquileres/:id', 'HireController.delete').as('hires.delete')
 

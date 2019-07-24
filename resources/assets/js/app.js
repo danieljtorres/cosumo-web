@@ -4,6 +4,7 @@ import CreateUserForm from './components/CreateUserForm.vue'
 import EditDeviceForm from './components/EditDeviceForm.vue'
 import EditUserForm from './components/EditUserForm.vue'
 import CreateHireForm from './components/CreateHireForm.vue'
+import EditHireForm from './components/EditHireForm.vue'
 window.Vue = Vue
 
 Vue.config.productionTip = false
@@ -15,6 +16,7 @@ const app = new Vue({
         CreateUserForm,
         CreateHireForm,
         EditDeviceForm,
-        EditUserForm
+        EditUserForm,
+        EditHireForm
     }
 })
