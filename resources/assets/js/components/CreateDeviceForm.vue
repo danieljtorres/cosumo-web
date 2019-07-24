@@ -135,6 +135,7 @@
                 :separator="' - '"
                 :from-text="'Desde'"
                 :to-text="'Hasta'"
+                :min-date="'1970'"
                 :confirm-text="'Aceptar'"
                 @update="getDateRange"/> 
             </div>
