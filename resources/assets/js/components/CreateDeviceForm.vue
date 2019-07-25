@@ -135,7 +135,7 @@
                 :separator="' - '"
                 :from-text="'Desde'"
                 :to-text="'Hasta'"
-                :min-date="'01/12/1990'"
+                :min-date="'2000/01/01'"
                 :confirm-text="'Aceptar'"
                 @update="getDateRange"/> 
             </div>
@@ -159,7 +159,7 @@
 <script>
 
 import * as moment from 'moment'
-import VueHotelDatepicker from '@northwalker/vue-hotel-datepicker'
+import VueHotelDatepicker from './VueHotelDatepicker.vue'
 
 export default {
   props: ['url', 'companies', 'csrf'],
